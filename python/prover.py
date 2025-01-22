@@ -5,7 +5,8 @@ import random
 
 def generate_random_value():
     """Generate a random value for the Pedersen commitment."""
-    return random.randint(1, q - 1)
+    return random.randint(1, 100 - 1)
+    # return 1
 
 # Define a distinct generator H for the second term in the commitment
 H = multiply(G1, 8935763487)  # Using G2 as an example; you might want to define your H differently.
@@ -19,38 +20,12 @@ def commit(value, random_value):
     :return: The commitment (point on elliptic curve)
     """
     # Commitment: C(x, r) = r * G + x * H
-    return add(multiply(G1, random_value), multiply(H, value))
-
-
-def commit_grid_cell_names(triplets):
-    """
-    Commit to the names (grid positions) of the cells for each triple of indices.
-    
-    :param triplets: A list of triples, where each triple contains the indices (i1, i2, i3) for a grid cell
-    :return: A list of commitments for the grid cell names
-    """
-    n = len(triplets)
-    cell_name_commitments = []
-    
-    for i in range(n):
-        for j in range(n):
-            i1, i2, i3 = triplets[i][j]
-            grid_position = (i, j)  # Grid position for the cell
-            
-            # Convert grid position to a string for commitment
-            grid_position_str = f"{grid_position}"
-            
-            # Use a hash-based commitment for simplicity (this can be replaced with a more secure scheme)
-            position_commitment = hashlib.sha256(grid_position_str.encode()).hexdigest()
-            
-            # Store the commitment along with the indices
-            cell_name_commitments.append((i1, i2, i3, position_commitment))
-    
-    return cell_name_commitments
+    # return add(multiply(G1, random_value), multiply(H, value))
+    return value*random_value
 
 
 
-def generate_commitments_for_sudoku(solution):
+def generate_commitment1(solution):
     """
     Generate the commitments for all cells in the Sudoku grid.
     Each cell has 3 associated values: one for row, one for column, and one for subgrid.
@@ -95,4 +70,106 @@ def generate_commitments_for_sudoku(solution):
                 random_data[idx] = random_val  # Store the blinding factor used
 
     # Return the commitments, triplets, random blinding factors, and original values
-    return commitments, triplets, random_data, commitments_value
+    return commitments, random_data, commitments_value, triplets
+
+
+def generate_commitment2(triplets):
+    """
+    Generate commitments for the names (positions) of the grid cells.
+    
+    :param triplets: A list of triples, where each triple contains the indices (i1, i2, i3) for a grid cell
+    :return: List of commitments for the grid cell names
+    """
+    n = len(triplets)
+    commitments = [ None for _ in range(n*n)]
+    random_data = [ None for _ in range(n*n)]
+    commitments_value = [ None for _ in range(n*n)]
+    random_list = [ i for i in range(n*n)]
+    print(random_list)
+    random.shuffle(random_list)
+
+    for i in range(n):
+        for j in range(n):
+            i1, i2, i3 = triplets[i][j]
+            k = random_list.pop()
+            random_val = generate_random_value()
+            commitments[k] = (i1*random_val, i2*random_val,  i3*random_val)
+            random_data[k] = random_val
+            commitments_value[k] = (i1, i2, i3)
+    
+    return commitments, random_data, commitments_value
+
+
+
+def generate_commitment3(triplets):
+    """
+    
+
+
+    """
+
+    n = len(triplets)
+    commitments = [[None for __ in range(n)] for _ in range(n)]  
+    commitments_value = [[None for __ in range(n)] for _ in range(n)]  
+    random_data = [[None for __ in range(n)] for _ in range(n)]  
+
+    for i in range(n):
+        for j in range(n):
+            i1, i2, i3 = triplets[i][j]
+            random_val = generate_random_value()
+            commitments[i][j] = (i1*random_val, i2*random_val, i3*random_val)
+            random_data[i][j] = random_val
+            commitments_value[i][j] = (i1, i2, i3)
+    
+    return commitments, random_data, commitments_value
+
+
+def generate_commitment4(solution, triplets):
+    """
+
+
+
+
+    """
+    n = len(solution)
+    commitments = [[None for __ in range(n)] for _ in range(3*n)]
+    random_data = [[None for __ in range(n)] for _ in range(3*n)]
+    commitments_value = [[None for __ in range(n)] for _ in range(3*n)]
+
+    for r in range(n):
+        for c in range(n):
+            i1, i2, i3 = triplets[r][c]
+            commitment1_val = i1 # for row commitment 
+            random_val = generate_random_value()
+            commitments_value[r][c] = commitment1_val
+            random_data[r][c] = random_val
+            commitments[r][c] = random_val*commitment1_val
+
+    for c in range(n):
+        for r in range(n):
+            i1, i2, i3 = triplets[r][c]
+            commitment1_val = i2 # for column commitment 
+            random_val = generate_random_value()
+            commitments_value[n+r][c] = commitment1_val
+            random_data[n+r][c] = random_val
+            commitments[n+r][c] = random_val*commitment1_val
+    
+    subgrid_size = n//3
+    for subgrid in range(n):
+        # Calculate the starting row and column for the current subgrid
+        start_row = (subgrid // subgrid_size) * subgrid_size
+        start_col = (subgrid % subgrid_size) * subgrid_size
+        
+        # Now, loop over each cell in the current subgrid
+        for i in range(subgrid_size):
+            for j in range(subgrid_size):
+                row = start_row + i
+                col = start_col + j
+                i1, i2, i3 = triplets[row][col]
+                commitments_value[2*n + subgrid][3*i+j] = i3 # for subgrid commitment
+                random_val = generate_random_value()
+                random_data[2*n + subgrid][3*i+j] = random_val
+                commitments[2*n + subgrid][3*i+j] = i3 * random_val       
+
+
+    return commitments, random_data, commitments_value

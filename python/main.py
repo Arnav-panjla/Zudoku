@@ -48,11 +48,54 @@ if __name__ == "__main__":
     print("Solution:")
     print_grid(solution)
     print("Committing to the Sudoku puzzle...")
-    commitments, triplets, random_data, commitments_value = prover.generate_commitments_for_sudoku(solution)
-    cell_name_commitments = prover.commit_grid_cell_names(triplets)
-    # Print the commitments for inspection
-    print("Commitments for the Sudoku Solution:")
+    commitments1, random_data1, commitments_value1, triplets = prover.generate_commitment1(solution)
+    
+    print("Commitment1 for the Sudoku Solution:")
+    print(commitments1)
     print_grid(triplets)
-    print(commitments_value)
-    print(random_data)
-    print(cell_name_commitments)
+    print(commitments_value1)
+    print(random_data1)
+
+    print("Verifying the commitments...")
+    commitments2, random_data2, commitments_value2 = prover.generate_commitment2(triplets)
+    print("Commitment2 for the Sudoku Solution:")
+    print(commitments2)
+    print_grid(triplets)
+    print(commitments_value2)
+    print(random_data2)
+
+    commitments3, random_data3, commitments_value3 = prover.generate_commitment3(triplets)
+    print("Commitment3 for the Sudoku Solution:")
+    print(commitments3)
+    print(commitments_value3)
+    print(random_data3)
+
+    commitments4, random_data4, commitments_value4 = prover.generate_commitment4(solution, triplets)
+    print("Commitment4 for the Sudoku Solution:")
+    print(commitments4)
+    print(commitments_value4)
+    print(random_data4)
+
+    print("Verifying all the commitments...")
+
+    if verify_commitment1(commitments1, random_data1, commitments_value1):
+        print("Commitment1 verified")
+    else:
+        print("Commitment1 verification failed")
+
+    if verify_commitment2(commitments2, random_data2, commitments_value2):
+        print("Commitment2 verified")
+    else:
+        print("Commitment2 verification failed")
+
+    if verify_commitment3(commitments3, random_data3, commitments_value3):
+        print("Commitment3 verified")
+    else:
+        print("Commitment3 verification failed")
+    
+    if verify_commitment4(commitments4, random_data4, commitments_value4):
+        print("Commitment4 verified")
+    else:
+        print("Commitment4 verification failed")
+
+
