@@ -40,62 +40,42 @@ def generate_sudoku_solution():
 
 if __name__ == "__main__":
     print("Welcome to Zudoku!")
+    print("Note -- all the terminologies used in the code are related to sited paper (Zudoku)")
     print("Generating a Sudoku puzzle...")
     sudoku = initial_sudoku()
     print_grid(sudoku)
     print("Generating a solution...")
     solution = generate_sudoku_solution()
-    print("Solution:")
-    print_grid(solution)
+    print("-------------Solution generated successfully!-------------")
+
     print("Committing to the Sudoku puzzle...")
-    commitments1, random_data1, commitments_value1, triplets = prover.generate_commitment1(solution)
-    
-    print("Commitment1 for the Sudoku Solution:")
-    print(commitments1)
-    print_grid(triplets)
-    print(commitments_value1)
-    print(random_data1)
+    Prover = prover.CommitmentStorage(solution)
+    commitments1, commitments2, commitments3, commitments4 = Prover.get_commitments()
 
-    print("Verifying the commitments...")
-    commitments2, random_data2, commitments_value2 = prover.generate_commitment2(triplets)
-    print("Commitment2 for the Sudoku Solution:")
-    print(commitments2)
-    print_grid(triplets)
-    print(commitments_value2)
-    print(random_data2)
+    print("-------------Commitments recieved successfully!-------------")
+    user_input = input("Do you want to see the commitments(y/n) ? :")
+    if user_input == "y" or user_input == "Y":
+        print("Commitment1 for the Sudoku Solution:")
+        print(commitments1)
 
-    commitments3, random_data3, commitments_value3 = prover.generate_commitment3(triplets)
-    print("Commitment3 for the Sudoku Solution:")
-    print(commitments3)
-    print(commitments_value3)
-    print(random_data3)
+        print("Commitment2 for the Sudoku Solution:")
+        print(commitments2)
 
-    commitments4, random_data4, commitments_value4 = prover.generate_commitment4(solution, triplets)
-    print("Commitment4 for the Sudoku Solution:")
-    print(commitments4)
-    print(commitments_value4)
-    print(random_data4)
+        print("Commitment3 for the Sudoku Solution:")
+        print(commitments3)
 
-    print("Verifying all the commitments...")
-
-    if verify_commitment1(commitments1, random_data1, commitments_value1):
-        print("Commitment1 verified")
+        print("Commitment4 for the Sudoku Solution:")
+        print(commitments4)
     else:
-        print("Commitment1 verification failed")
-
-    if verify_commitment2(commitments2, random_data2, commitments_value2):
-        print("Commitment2 verified")
-    else:
-        print("Commitment2 verification failed")
-
-    if verify_commitment3(commitments3, random_data3, commitments_value3):
-        print("Commitment3 verified")
-    else:
-        print("Commitment3 verification failed")
-    
-    if verify_commitment4(commitments4, random_data4, commitments_value4):
-        print("Commitment4 verified")
-    else:
-        print("Commitment4 verification failed")
+        print("As you wish :)\nCommitments are not displayed")
 
 
+    verifier_query = input("which query you want to verify (a/b/c) : ")
+    match verifier_query:
+        case "a":pass
+        case "b":pass
+        case "c":pass
+        case _:
+            print("Invalid query!")
+            print("Please enter a valid query (a/b/c)")
+            exit(1)
