@@ -174,28 +174,47 @@ class CommitmentStorage:
 
     def get_commitments(self):
         return  self.commitments1, self.commitments2, self.commitments3, self.commitments4
-
     
 
-# # Example usage:
-# solution = [[5, 3, 4, 6, 7, 8, 9, 1, 2], 
-#             [6, 7, 2, 1, 9, 5, 3, 4, 8], 
-#             [1, 9, 8, 3, 4, 2, 5, 6, 7], 
-#             [8, 5, 9, 7, 6, 1, 4, 2, 3], 
-#             [4, 2, 6, 8, 5, 3, 7, 9, 1], 
-#             [7, 1, 3, 9, 2, 4, 8, 5, 6], 
-#             [9, 6, 1, 5, 3, 7, 2, 8, 4], 
-#             [2, 8, 7, 4, 1, 9, 6, 3, 5], 
-#             [3, 4, 5, 2, 8, 6, 1, 7, 9]]  # A sample Sudoku solution
+    # Getter methods to access the variables
+    def get_commitments1(self):
+        return self.commitments1
 
-# # Create the CommitmentStorage instance
-# commitment_storage = CommitmentStorage(solution)
+    def get_random_data1(self):
+        return self.random_data1
 
-# # Access the stored commitments and related data
-# commitments = commitment_storage.get_commitments()
-# random_data = commitment_storage.get_random_data()
-# commitments_value = commitment_storage.get_commitments_value()
+    def get_commitments_value1(self):
+        return self.commitments_value1
 
-# # Print example commitment data
-# print(commitments['commitments1'])
-# print(random_data['random_data1'])
+    def get_triplets(self):
+        return self.triplets
+
+    def get_commitments2(self):
+        return self.commitments2
+
+    def get_random_data2(self):
+        return self.random_data2
+
+    def get_commitments_value2(self):
+        return self.commitments_value2
+
+    def get_commitments3(self):
+        return self.commitments3
+
+    def get_random_data3(self):
+        return self.random_data3
+
+    def get_commitments_value3(self):
+        return self.commitments_value3
+
+    def get_commitments4(self):
+        return self.commitments4
+
+    def get_random_data4(self):
+        return self.random_data4
+
+    def get_commitments_value4(self):
+        return self.commitments_value4
+
+
+    

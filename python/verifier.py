@@ -60,3 +60,27 @@ def verify_commitment4(commitments, random_data, commitments_value):
             if not verify(commitments[i][j], random_data[i][j], commitments_value[i][j]):
                 return False
     return True
+
+def verify_query_a(commitment1_value, commitment4_value):
+    """
+    
+    
+    """
+    n  = len(commitment4_value)//3
+    possible_values = [i for i in range(1, n+1)]
+    for i in range(len(commitment4_value)):
+        values_set = set()
+        for j in range(len(commitment4_value[0])):
+            index = commitment4_value[i][j]
+            values_set.add(commitment1_value[index])
+            if commitment1_value[index] not in possible_values:
+                return False
+        if len(values_set) != n:
+            return False
+    return True
+            
+            
+
+
+
+    return True

@@ -53,8 +53,8 @@ if __name__ == "__main__":
     commitments1, commitments2, commitments3, commitments4 = Prover.get_commitments()
 
     print("-------------Commitments recieved successfully!-------------")
-    user_input = input("Do you want to see the commitments(y/n) ? :")
-    if user_input == "y" or user_input == "Y":
+    user_decision = input("Do you want to see the commitments for all steps(y/n) ? :")
+    if user_decision == "y" or user_decision == "Y":
         print("Commitment1 for the Sudoku Solution:")
         print(commitments1)
 
@@ -72,10 +72,47 @@ if __name__ == "__main__":
 
     verifier_query = input("which query you want to verify (a/b/c) : ")
     match verifier_query:
-        case "a":pass
+        case "a":
+            print("ask the prover to open the commitmnet 1 & 4")
+            print("Opening commitment1...")
+            commitments1_value = Prover.get_commitments_value1()
+            commitments1_random_data = Prover.get_random_data1()
+            if user_decision == "y" or user_decision == "Y":
+                print("commitment1_value: \n", commitments1_value)
+                print("commitment1_random_data: \n", commitments1_random_data)
+                print()
+            print("Verifying commitment1...")
+            if verify_commitment1(commitments1, commitments1_random_data, commitments1_value):
+                print("Commitment1 verified successfully!")
+            else:
+                print("Commitment1 verification failed!")
+
+            print("Opening commitment4...")
+            commitments4_value = Prover.get_commitments_value4()
+            commitments4_random_data = Prover.get_random_data4()
+            if user_decision == "y" or user_decision == "Y":
+                print("commitment4_value: \n", commitments4_value)
+                print("commitment4_random_data: \n", commitments4_random_data)
+                print()
+            print("Verifying commitment4...")
+            if verify_commitment4(commitments4, commitments4_random_data, commitments4_value):
+                print("Commitment4 verified successfully!")
+            else:
+                print("Commitment4 verification failed!")
+
+            print("--- checking for query a ---")
+            print("Each set contains n different numbers and no two sets intersect")
+            if verify_query_a(commitments1_value, commitments4_value):
+                print("Query a verified successfully!")
+            else:
+                print("Query a verification failed!")
         case "b":pass
+
         case "c":pass
         case _:
             print("Invalid query!")
             print("Please enter a valid query (a/b/c)")
             exit(1)
+    print("-------------Verification completed successfully!-------------")
+    print("we have 2/3 soundness error with zeroknowledge property")
+    print("Thank you for using Zudoku!")
