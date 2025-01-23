@@ -78,9 +78,27 @@ def verify_query_a(commitment1_value, commitment4_value):
         if len(values_set) != n:
             return False
     return True
-            
-            
-
-
+def verify_query_b(commitment1_value, commitment2_value):
+    """
+    
+    
+    """
+    n = len(commitment1_value)
+    index_list = []
+    for tup in commitment2_value:
+        index0 = tup[0]
+        index1 = tup[1]
+        index2 = tup[2]
+        index_list.append(index0)
+        index_list.append(index1)
+        index_list.append(index2)
+        if commitment1_value[tup[0]] != commitment1_value[tup[1]]:
+            return False
+        if commitment1_value[tup[1]] != commitment1_value[tup[2]]:
+            return False
+        if commitment1_value[tup[0]] != commitment1_value[tup[2]]:
+            return False
+    if set(index_list) != set(range(len(commitment1_value))):
+        return False
 
     return True

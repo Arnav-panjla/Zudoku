@@ -100,13 +100,48 @@ if __name__ == "__main__":
             else:
                 print("Commitment4 verification failed!")
 
-            print("--- checking for query a ---")
+            print("--- checking for query A ---")
             print("Each set contains n different numbers and no two sets intersect")
             if verify_query_a(commitments1_value, commitments4_value):
-                print("Query a verified successfully!")
+                print("Query A verified successfully!")
             else:
-                print("Query a verification failed!")
-        case "b":pass
+                print("Query A verification failed!")
+
+        case "b":
+            print("ask the prover to open the commitmnet 1 & 2")
+            print("Opening commitment1...")
+            commitments1_value = Prover.get_commitments_value1()
+            commitments1_random_data = Prover.get_random_data1()
+            if user_decision == "y" or user_decision == "Y":
+                print("commitment1_value: \n", commitments1_value)
+                print("commitment1_random_data: \n", commitments1_random_data)
+                print()
+            print("Verifying commitment1...")
+            if verify_commitment1(commitments1, commitments1_random_data, commitments1_value):
+                print("Commitment1 verified successfully!")
+            else:
+                print("Commitment1 verification failed!")
+
+            print("Opening commitment2...")
+            commitments2_value = Prover.get_commitments_value2()
+            commitments2_random_data = Prover.get_random_data2()
+            if user_decision == "y" or user_decision == "Y":
+                print("commitment2_value: \n", commitments2_value)
+                print("commitment2_random_data: \n", commitments2_random_data)
+                print()
+            print("Verifying commitment2...")
+            if verify_commitment2(commitments2, commitments2_random_data, commitments2_value):
+                print("Commitment2 verified successfully!")
+            else:
+                print("Commitment2 verification failed!")
+
+            print("--- checking for query B ---")
+            print("each tuple corresponds to same value and every number appears in tupple")
+            if verify_query_b(commitments1_value, commitments2_value):
+                print("Query B verified successfully!")
+            else:
+                print("Query B verification failed!")
+
 
         case "c":pass
         case _:
