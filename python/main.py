@@ -83,7 +83,7 @@ if __name__ == "__main__":
                 print()
             print("Verifying commitment1...")
             if verify_commitment1(commitments1, commitments1_random_data, commitments1_value):
-                print("Commitment1 verified successfully!")
+                print("Commitment1 verified with the originally given values successfully!")
             else:
                 print("Commitment1 verification failed!")
 
@@ -96,7 +96,7 @@ if __name__ == "__main__":
                 print()
             print("Verifying commitment4...")
             if verify_commitment4(commitments4, commitments4_random_data, commitments4_value):
-                print("Commitment4 verified successfully!")
+                print("Commitment4 verified with the originally given values successfully!")
             else:
                 print("Commitment4 verification failed!")
 
@@ -118,7 +118,7 @@ if __name__ == "__main__":
                 print()
             print("Verifying commitment1...")
             if verify_commitment1(commitments1, commitments1_random_data, commitments1_value):
-                print("Commitment1 verified successfully!")
+                print("Commitment1 verified with the originally given values successfully!")
             else:
                 print("Commitment1 verification failed!")
 
@@ -131,7 +131,7 @@ if __name__ == "__main__":
                 print()
             print("Verifying commitment2...")
             if verify_commitment2(commitments2, commitments2_random_data, commitments2_value):
-                print("Commitment2 verified successfully!")
+                print("Commitment2 verified with the originally given values successfully!")
             else:
                 print("Commitment2 verification failed!")
 
