@@ -20,9 +20,6 @@ The verifier then randomly chooses one of the following queries:
 
 If the prover can successfully answer all queries, the solution is valid, and the prover has demonstrated knowledge of the solution.
 
-## Files
-- **sudoku_zero_knowledge.py**: Python implementation of the zero-knowledge proof protocol for a 9x9 Sudoku puzzle.
-- **research_paper.pdf**: The research paper outlining the protocol in detail.
 
 ## Zero-Knowledge Property
 
