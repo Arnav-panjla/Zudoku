@@ -4,12 +4,14 @@ import hashlib
 import random
 
 class CommitmentStorage:
-    def __init__(self, solution):
+    def __init__(self,initial_sudoku, solution):
+        self.initial_sudoku = initial_sudoku  # Store the initial Sudoku puzzle
         self.solution = solution  # Store the Sudoku solution
         self.n = len(solution)  # Size of the Sudoku grid (n x n)
         
         # Generate all commitments upon initialization
         self.commitments1, self.random_data1, self.commitments_value1, self.triplets = self.generate_commitment1()
+        self.commitments1c, self.random_data1c, self.commitments_value1c = self.generate_commitment1c()
         self.commitments2, self.random_data2, self.commitments_value2 = self.generate_commitment2()
         self.commitments3, self.random_data3, self.commitments_value3 = self.generate_commitment3()
         self.commitments4, self.random_data4, self.commitments_value4 = self.generate_commitment4()
@@ -29,6 +31,26 @@ class CommitmentStorage:
         # Commitment formula: C(x, r) = r * G + x * H
         # Here you would normally compute elliptic curve operations. For this example, we just return a product.
         return value * random_value  # This is a simplified commitment for illustrative purposes.
+
+
+    def generate_commitment1c(self):
+        commitments1c = [None for _ in range(3 * self.n * self.n)]  # 3n² commitments for all cells
+        commitments1c_value = [None for _ in range(3 * self.n * self.n)]  # The original values for each commitment
+        random_data1c = [None for _ in range(3 * self.n * self.n)]  # Random blinding factors used for each commitment
+
+        for i in range(self.n):
+            for j in range(self.n):
+                if self.initial_sudoku[i][j] != 0:
+                    index_tup = self.triplets[i][j]
+                    for idx in index_tup:
+                        commitments1c[idx] = self.commitments1[idx]
+                        random_data1c[idx] = self.random_data1[idx]
+                        commitments1c_value[idx] = self.commitments_value1[idx]
+        
+        return commitments1c, random_data1c, commitments1c_value
+
+
+
 
     def generate_commitment1(self):
         """
@@ -215,6 +237,15 @@ class CommitmentStorage:
 
     def get_commitments_value4(self):
         return self.commitments_value4
+    
+    def get_commitments1c(self):
+        return self.commitments1
+
+    def get_random_data1c(self):
+        return self.random_data1
+
+    def get_commitments_value1c(self):
+        return self.commitments_value1c
 
 
     

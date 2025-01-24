@@ -49,7 +49,7 @@ if __name__ == "__main__":
     print("-------------Solution generated successfully!-------------")
 
     print("Committing to the Sudoku puzzle...")
-    Prover = prover.CommitmentStorage(solution)
+    Prover = prover.CommitmentStorage(sudoku, solution)
     commitments1, commitments2, commitments3, commitments4 = Prover.get_commitments()
 
     print("-------------Commitments recieved successfully!-------------")
@@ -143,11 +143,73 @@ if __name__ == "__main__":
                 print("Query B verification failed!")
 
 
-        case "c":pass
+        case "c":
+            print("ask the prover to open the commitmnet 2,3,4 and only predetermined 1")
+            print("Opening predetermined commitment1...")
+            commitments1c_value = Prover.get_commitments_value1c()
+            commitments1c_random_data = Prover.get_random_data1c()
+            if user_decision == "y" or user_decision == "Y":
+                print("commitment1_value: \n", commitments1c_value)
+                print("commitment1_random_data: \n", commitments1c_random_data)
+                print()
+            print("Verifying commitment1...")
+            if verify_commitment1c(commitments1, commitments1c_random_data, commitments1c_value):
+                print("Commitment1 verified with the originally given values successfully!")
+            else:
+                print("Commitment1 verification failed!")
+
+            print("Opening commitment2...")
+            commitments2_value = Prover.get_commitments_value2()
+            commitments2_random_data = Prover.get_random_data2()
+            if user_decision == "y" or user_decision == "Y":
+                print("commitment2_value: \n", commitments2_value)
+                print("commitment2_random_data: \n", commitments2_random_data)
+                print()
+            print("Verifying commitment2...")
+            if verify_commitment2(commitments2, commitments2_random_data, commitments2_value):
+                print("Commitment2 verified with the originally given values successfully!")
+            else:
+                print("Commitment2 verification failed!")
+            
+
+            print("Opening commitment3...")
+            commitments3_value = Prover.get_commitments_value3()
+            commitments3_random_data = Prover.get_random_data3()
+            if user_decision == "y" or user_decision == "Y":
+                print("commitment3_value: \n", commitments3_value)
+                print("commitment3_random_data: \n", commitments3_random_data)
+                print()
+            print("Verifying commitment3...")
+            if verify_commitment3(commitments3, commitments3_random_data, commitments3_value):
+                print("Commitment3 verified with the originally given values successfully!")
+            else:
+                print("Commitment3 verification failed!")
+
+            print("Opening commitment4...")
+            commitments4_value = Prover.get_commitments_value4()
+            commitments4_random_data = Prover.get_random_data4()
+            if user_decision == "y" or user_decision == "Y":
+                print("commitment4_value: \n", commitments4_value)
+                print("commitment4_random_data: \n", commitments4_random_data)
+                print()
+            print("Verifying commitment4...")
+            if verify_commitment4(commitments4, commitments4_random_data, commitments4_value):
+                print("Commitment4 verified with the originally given values successfully!")
+            else:
+                print("Commitment4 verification failed!")
+
+
+
+            print("--- checking for query C ---")
+            print("each tuple corresponds to same value and every number appears in tupple")
+            if verify_query_c(commitments1c_value, commitments2_value, commitments3_value, commitments4_value):
+                print("Query C verified successfully!")
+            else:
+                print("Query C verification failed!")
         case _:
             print("Invalid query!")
             print("Please enter a valid query (a/b/c)")
             exit(1)
-    print("-------------Verification completed successfully!-------------")
+    print("-------------Verification completed-------------")
     print("we have 2/3 soundness error with zeroknowledge property")
     print("Thank you for using Zudoku!")

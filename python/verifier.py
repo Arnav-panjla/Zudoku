@@ -3,7 +3,21 @@ from py_ecc.optimized_bn128 import field_modulus as q
 import hashlib
 import random
 
+def initial_sudoku():
+    """Generate a Sudoku puzzle."""
 
+    sudoku = [
+        [0, 0, 0, 2, 6, 0, 7, 0, 1],
+        [6, 8, 0, 0, 7, 0, 0, 9, 0],
+        [1, 9, 0, 0, 0, 4, 5, 0, 0],
+        [8, 2, 0, 1, 0, 0, 0, 4, 0],
+        [0, 0, 4, 6, 0, 2, 9, 0, 0],
+        [0, 5, 0, 0, 0, 3, 0, 2, 8],
+        [0, 0, 9, 3, 0, 0, 0, 7, 4],
+        [0, 4, 0, 0, 5, 0, 0, 3, 6],
+        [7, 0, 3, 0, 1, 8, 0, 0, 0]
+    ]
+    return sudoku
 
 
 def verify(commitment, random_value, value):
@@ -29,6 +43,20 @@ def verify_commitment1(commitments, random_data, commitments_value):
             return False
 
     return True
+
+def verify_commitment1c(commitments, random_data1c, commitments_value1c):
+    """
+
+    """
+
+    for i in range(len(commitments)):
+        if commitments_value1c[i] is None:
+            continue
+        if not verify(commitments[i], random_data1c[i], commitments_value1c[i]):
+            return False
+
+    return True
+
 def verify_commitment2(commitments, random_data, commitments_value):
     """
 
@@ -102,3 +130,22 @@ def verify_query_b(commitment1_value, commitment2_value):
         return False
 
     return True
+
+
+def verify_query_c(commitments1c_value, commitments2_value, commitments3_value, commitments4_value):
+    """
+    
+    """
+    # checking the consistency of predetermined values
+    n = len(commitments4_value)//3
+    empty_sudoku = initial_sudoku()
+    for i in range(n):
+        for j in range(n):
+            cell = empty_sudoku[i][j]
+            if cell != 0:
+                indexes = commitments3_value[i][j]
+                for idx in indexes:
+                    if commitments1c_value[idx] != cell:
+                        return False            
+    return True
+
